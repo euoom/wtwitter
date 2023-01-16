@@ -26,9 +26,6 @@ const Home = () => {
             createdAt: Date.now(),
         })
         setWTweet("");
-        console.log(wTweets)
-        console.log(wTweets)
-        console.log(wTweets)
     }
 
     const onChange = (event) => {
