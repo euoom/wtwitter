@@ -1,39 +1,43 @@
 import React, {useState} from "react";
-import firebaseApp, {authService} from "fBase";
+import {authService} from "fBase";
 import {GithubAuthProvider, GoogleAuthProvider} from "@firebase/auth";
 
-
-const Auth = () => {
+function Auth() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [newAccount, setNewAccount] = useState(false);
     const [error, setError] = useState('');
 
-    const onChange = (event) => {
+    function onChange(event) {
         const {target: {name, value}} = event;
         if (name === "email") {
             setEmail(value);
         } else if (name === "password") {
             setPassword(value)
         }
-    };
+    }
 
-    const onSubmit = async (event) => {
-        event.preventDefault();
+    async function onSubmit(event) {
+        event.preventDefault()
         try {
-            let data;
+            let data
             if (newAccount) {
-                data = await authService.createUserWithEmailAndPassword(email, password);
+                data = await authService.createUserWithEmailAndPassword(email, password)
             } else {
-                data = await authService.signInWithEmailAndPassword(email, password);
+                data = await authService.signInWithEmailAndPassword(email, password)
             }
         } catch (error) {
             setError(error.message)
         }
-    };
+    }
 
-    const toggleAccount = () => setNewAccount((prev) => !prev);
-    const onSocialClick = async (event) => {
+    function toggleAccount() {
+        setNewAccount(function (prev) {
+            return !prev
+        })
+    }
+
+    async function onSocialClick(event) {
         const {target: {name}} = event;
         let provider;
         if (name === "google") {
@@ -62,4 +66,5 @@ const Auth = () => {
         </div>
     )
 }
+
 export default Auth

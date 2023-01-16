@@ -1,24 +1,27 @@
 import React, {useState, useEffect} from "react"
 import {dbService} from "fBase";
 import {collection, onSnapshot, query, orderBy,} from "firebase/firestore"
+import WTweet from "../components/WTweet";
 
-const Home = ({userObj}) => {
+function Home({userObj}) {
     const [wTweet, setWTweet] = useState("")
     const [wTweets, setWTweets] = useState([])
 
-    useEffect(() =>{
+    useEffect(function () {
         const q = query(collection(dbService, 'wtweets'), orderBy('createdAt', 'desc'))
-        onSnapshot(q, (snapshot) => {
-            const wTweetArray = snapshot.docs.map((doc) => ({
-                id: doc.id,
-                ...doc.data()
-            }))
+        onSnapshot(q, function (snapshot) {
+            const wTweetArray = snapshot.docs.map(function (doc) {
+                return ({
+                    id: doc.id,
+                    ...doc.data()
+                })
+            })
             setWTweets(wTweetArray)
         })
     }, [])
 
 
-    const onSubmit = async (event) => {
+    async function onSubmit(event) {
         event.preventDefault()
         await dbService.collection('wtweets').add({
             text: wTweet,
@@ -28,25 +31,26 @@ const Home = ({userObj}) => {
         setWTweet("");
     }
 
-    const onChange = (event) => {
+    function onChange(event) {
         const {target: {value}} = event
         setWTweet(value)
     }
 
     return (
-        <div>
+        <>
             <form onSubmit={onSubmit}>
                 <input type="text" placeholder="설명 텍스트" maxLength={120} value={wTweet} onChange={onChange}/>
-                <input type="submit" value="Wtweeter"/>
+                <input type="submit" value="등록"/>
             </form>
             <div>
-                {wTweets.map((wTweet) => (
-                    <div key={wTweet.id}>
-                        <h4>{wTweet.text}</h4>
-                    </div>
-                ))}
+                {wTweets.map(function (wTweet) {
+                    return (
+                        <WTweet key={wTweet.id} wtweetObj={wTweet} isOwner={wTweet.createdID === userObj.uid}/>
+                    )
+                })}
             </div>
-        </div>
+        </>
     )
 }
+
 export default Home

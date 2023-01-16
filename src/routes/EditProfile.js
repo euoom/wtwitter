@@ -1,4 +1,7 @@
 import React from "react";
 
-const EditProfile =  () => <span>EditProfile</span>
+function EditProfile() {
+    return (<span>EditProfile</span>)
+}
+
 export default EditProfile
