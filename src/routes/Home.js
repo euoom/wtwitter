@@ -1,7 +1,8 @@
-import React, {useState, useEffect} from "react"
-import {dbService} from "fBase";
-import {collection, onSnapshot, query, orderBy,} from "firebase/firestore"
-import WTweet from "../components/WTweet";
+import React, {useEffect, useState} from "react"
+import {dbService, storageService} from "fBase";
+import {collection, onSnapshot, orderBy, query,} from "firebase/firestore"
+import WTweet from "components/WTweet";
+import {v4 as uuidv4} from "uuid"
 
 function Home({userObj}) {
     const [wTweet, setWTweet] = useState("")
@@ -24,12 +25,16 @@ function Home({userObj}) {
 
     async function onSubmit(event) {
         event.preventDefault()
-        await dbService.collection('wtweets').add({
-            text: wTweet,
-            createdAt: Date.now(),
-            createdID: userObj.uid,
-        })
-        setWTweet("");
+        // await dbService.collection('wtweets').add({
+        //     text: wTweet,
+        //     createdAt: Date.now(),
+        //     createdID: userObj.uid,
+        // })
+        // setWTweet("");
+
+        const fileRef = storageService.ref().child(`${userObj.uid}/${uuidv4()}`)
+        const response = await fileRef.putString(attachment, 'data_url')
+        console.log(response)
     }
 
     function onChange(event) {
