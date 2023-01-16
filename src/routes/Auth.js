@@ -20,11 +20,10 @@ function Auth() {
     async function onSubmit(event) {
         event.preventDefault()
         try {
-            let data
             if (newAccount) {
-                data = await authService.createUserWithEmailAndPassword(email, password)
+                await authService.createUserWithEmailAndPassword(email, password)
             } else {
-                data = await authService.signInWithEmailAndPassword(email, password)
+                await authService.signInWithEmailAndPassword(email, password)
             }
         } catch (error) {
             setError(error.message)
