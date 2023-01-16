@@ -6,6 +6,7 @@ import WTweet from "../components/WTweet";
 function Home({userObj}) {
     const [wTweet, setWTweet] = useState("")
     const [wTweets, setWTweets] = useState([])
+    const [attachment, setAttachment] = useState();
 
     useEffect(function () {
         const q = query(collection(dbService, 'wtweets'), orderBy('createdAt', 'desc'))
@@ -37,14 +38,19 @@ function Home({userObj}) {
     }
 
     function onFileChange(event) {
-        const {target:{files}} = event
+        const {target: {files}} = event
         const theFile = files[0]
         const reader = new FileReader()
 
-        reader.onloadend = function(finishedEvent){
-            console.log(finishedEvent)
+        reader.onloadend = function (finishedEvent) {
+            const {currentTarget: {result}} = finishedEvent
+            setAttachment(result)
         }
         reader.readAsDataURL(theFile)
+    }
+    
+    function onClearAttachment() {
+        setAttachment(null);
     }
 
     return (
@@ -53,6 +59,12 @@ function Home({userObj}) {
                 <input type="text" placeholder="설명 텍스트" maxLength={120} value={wTweet} onChange={onChange}/>
                 <input type="file" accept="images/*" onChange={onFileChange}/>
                 <input type="submit" value="등록"/>
+                {attachment && (
+                    <div>
+                        <img src={attachment} alt='' width='50px' height='50px'/>
+                        <button onClick={onClearAttachment}>이미지 비우기</button>
+                    </div>
+                )}
             </form>
             <div>
                 {wTweets.map(function (wTweet) {
