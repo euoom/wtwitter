@@ -36,10 +36,22 @@ function Home({userObj}) {
         setWTweet(value)
     }
 
+    function onFileChange(event) {
+        const {target:{files}} = event
+        const theFile = files[0]
+        const reader = new FileReader()
+
+        reader.onloadend = function(finishedEvent){
+            console.log(finishedEvent)
+        }
+        reader.readAsDataURL(theFile)
+    }
+
     return (
         <>
             <form onSubmit={onSubmit}>
                 <input type="text" placeholder="설명 텍스트" maxLength={120} value={wTweet} onChange={onChange}/>
+                <input type="file" accept="images/*" onChange={onFileChange}/>
                 <input type="submit" value="등록"/>
             </form>
             <div>
