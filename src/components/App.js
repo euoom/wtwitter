@@ -1,16 +1,15 @@
-import AppRouter from "components/Router";
-import {useEffect, useState} from "react";
-import {authService} from "fBase";
+import AppRouter from "components/Router"
+import {useEffect, useState} from "react"
+import {authService} from "fBase"
 
 function App() {
-    const [init, setInit] = useState(false);
-    // const [isLoggedIn, setIsLoggedIn] = useState(authService.currentUser);
-    const [userObj, setUserObj] = useState(null);
+    const [init, setInit] = useState(false)
+    const [userObj, setUserObj] = useState(null)
 
     useEffect(function () {
         authService.onAuthStateChanged(function (user) {
             if (user) {
-                // setUserObj(user);
+                // setUserObj(user)
                 setUserObj({
                     displayName: user.displayName,
                     uid: user.uid,
@@ -18,6 +17,8 @@ function App() {
                         return user.updateProfile(args)
                     }
                 })
+            } else {
+                setUserObj(null)
             }
             setInit(true)
         })
@@ -46,4 +47,4 @@ function App() {
     )
 }
 
-export default App;
+export default App

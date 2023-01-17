@@ -11,12 +11,12 @@ function Profile({refreshUser, userObj}) {
         navigate('/')
     }
 
-    async function getMyWTweets() {
-        const wtweets = await dbService.collection('wtweets').where('creatorid', '==', userObj.uid).orderBy('createAt').get()
-        console.log(wtweets.docs.map(function (doc) {
-            return doc.data()
-        }))
-    }
+    // async function getMyWTweets() {
+    //     const wtweets = await dbService.collection('wtweets').where('creatorid', '==', userObj.uid).orderBy('createAt').get()
+    //     console.log(wtweets.docs.map(function (doc) {
+    //         return doc.data()
+    //     }))
+    // }
 
     function onChange(event) {
         const {target: {value}} = event
@@ -31,9 +31,9 @@ function Profile({refreshUser, userObj}) {
         }
     }
 
-    useEffect(function () {
-        getMyWTweets()
-    }, [])
+    // useEffect(function () {
+    //     getMyWTweets()
+    // }, [])
 
     return (
         <>
