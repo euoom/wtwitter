@@ -8,7 +8,7 @@ import Profile from "routes/Profile";
 function AppRouter({isLoggedIn, userObj}) {
     return (
         <HashRouter>
-            {isLoggedIn && <Navigation/>}
+            {isLoggedIn && <Navigation userObj={userObj}/>}
             <Routes>
                 {isLoggedIn ?
                     <>
