@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {authService, dbService} from "fBase";
 import {useNavigate} from "react-router-dom";
 
-function Profile({userObj}) {
+function Profile({refreshUser, userObj}) {
     const navigate = useNavigate()
     const [newDisplayName, setNewDisplayName] = useState(userObj.displayName)
 
@@ -27,6 +27,7 @@ function Profile({userObj}) {
         event.preventDefault()
         if (userObj.displayName !== newDisplayName) {
             await userObj.updateProfile({displayName: newDisplayName})
+            refreshUser();
         }
     }
 
