@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react"
-import {dbService, storageService, collection, onSnapshot, orderBy, query, ref, uploadString, getDownloadURL} from "fBase";
+import {dbService, storageService, collection, onSnapshot, orderBy, query} from "fBase";
 import WTweet from "components/WTweet";
 import {v4 as uuidv4} from "uuid"
 
@@ -27,13 +27,12 @@ function Home({userObj}) {
         // await dbService.collection('wtweets').add({
         //     text: wTweet,
         //     createdAt: Date.now(),
-        //     createdID: userObj.uid,
+        //     creatorID: userObj.uid,
         // })
         // setWTweet("");
 
         // const fileRef = storageService.ref().child(`${userObj.uid}/${uuidv4()}`)
         // const response = await fileRef.putString(attachment, 'data_url')
-        // console.log(response)
 
         let attachmentUrl = ""
         if (attachment !== "") {
@@ -68,7 +67,7 @@ function Home({userObj}) {
         }
         reader.readAsDataURL(theFile)
     }
-    
+
     function onClearAttachment() {
         setAttachment("");
     }
@@ -89,7 +88,7 @@ function Home({userObj}) {
             <div>
                 {wTweets.map(function (wTweet) {
                     return (
-                        <WTweet key={wTweet.id} wtweetObj={wTweet} isOwner={wTweet.createdID === userObj.uid}/>
+                        <WTweet key={wTweet.id} wtweetObj={wTweet} isOwner={wTweet.creatorId === userObj.uid}/>
                     )
                 })}
             </div>

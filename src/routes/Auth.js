@@ -44,8 +44,7 @@ function Auth() {
         } else if (name === "github") {
             provider = new GithubAuthProvider();
         }
-        const data = await authService.signInWithPopup(provider);
-        console.log(data);
+        await authService.signInWithPopup(provider);
     }
 
     return (

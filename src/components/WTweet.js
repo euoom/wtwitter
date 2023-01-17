@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {dbService} from "fBase";
+import {dbService, storageService} from "fBase";
 
 function WTweet({wtweetObj, isOwner}) {
     const [editing, setEditing] = useState(false);
@@ -8,7 +8,8 @@ function WTweet({wtweetObj, isOwner}) {
     async function onDeleteClick() {
         const ok = window.confirm("정말 지울꺼에요?")
         if (ok) {
-            await dbService.doc(`wtweets/${wtweetObj.id}`).delete();
+            await dbService.doc(`wtweets/${wtweetObj.id}`).delete()
+            await storageService.refFromURL(wtweetObj.attachmentUrl).delete()
         }
     }
 
