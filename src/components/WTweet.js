@@ -43,6 +43,9 @@ function WTweet({wtweetObj, isOwner}) {
             ) : (
                 <>
                     <h4>{wtweetObj.text}</h4>
+                    {wtweetObj.attachmentUrl && (
+                        <img src={wtweetObj.attachmentUrl} width="50px" alt=""/>
+                    )}
                     {isOwner && (
                         <>
                             <button onClick={onDeleteClick}>삭제</button>

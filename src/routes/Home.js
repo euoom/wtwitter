@@ -1,13 +1,12 @@
 import React, {useEffect, useState} from "react"
-import {dbService, storageService} from "fBase";
-import {collection, onSnapshot, orderBy, query,} from "firebase/firestore"
+import {dbService, storageService, collection, onSnapshot, orderBy, query, ref, uploadString, getDownloadURL} from "fBase";
 import WTweet from "components/WTweet";
 import {v4 as uuidv4} from "uuid"
 
 function Home({userObj}) {
     const [wTweet, setWTweet] = useState("")
     const [wTweets, setWTweets] = useState([])
-    const [attachment, setAttachment] = useState();
+    const [attachment, setAttachment] = useState("");
 
     useEffect(function () {
         const q = query(collection(dbService, 'wtweets'), orderBy('createdAt', 'desc'))
@@ -32,9 +31,25 @@ function Home({userObj}) {
         // })
         // setWTweet("");
 
-        const fileRef = storageService.ref().child(`${userObj.uid}/${uuidv4()}`)
-        const response = await fileRef.putString(attachment, 'data_url')
-        console.log(response)
+        // const fileRef = storageService.ref().child(`${userObj.uid}/${uuidv4()}`)
+        // const response = await fileRef.putString(attachment, 'data_url')
+        // console.log(response)
+
+        let attachmentUrl = ""
+        if (attachment !== "") {
+            const attachmentRef = storageService.ref().child(`${userObj.uid}/${uuidv4()}`)
+            const response = await attachmentRef.putString(attachment, 'data_url')
+            attachmentUrl = await response.ref.getDownloadURL()
+        }
+        const wTweetObj = {
+            text: wTweet,
+            createdAt: Date.now(),
+            creatorId: userObj.uid,
+            attachmentUrl,
+        }
+        await dbService.collection('wtweets').add(wTweetObj)
+        setWTweet("");
+        setAttachment("");
     }
 
     function onChange(event) {
@@ -55,7 +70,7 @@ function Home({userObj}) {
     }
     
     function onClearAttachment() {
-        setAttachment(null);
+        setAttachment("");
     }
 
     return (
