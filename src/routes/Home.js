@@ -7,7 +7,7 @@ function Home({userObj}) {
     const [wTweets, setWTweets] = useState([])
 
     useEffect(function () {
-        const q = query(collection(dbService, 'wtweets'), orderBy('createdAt', 'desc'))
+        const q = query(collection(dbService, 'wTweets'), orderBy('createdAt', 'desc'))
         onSnapshot(q, function (snapshot) {
             const wTweetArray = snapshot.docs.map(function (doc) {
                 return ({
@@ -19,19 +19,17 @@ function Home({userObj}) {
         })
     }, [])
 
-
-
     return (
-        <>
+        <div className="container">
             <WTweetFactory userObj={userObj}/>
-            <div>
+            <div style={{marginTop: 30}}>
                 {wTweets.map(function (wTweet) {
                     return (
-                        <WTweet key={wTweet.id} wtweetObj={wTweet} isOwner={wTweet.creatorId === userObj.uid}/>
+                        <WTweet key={wTweet.id} wTweetObj={wTweet} isOwner={wTweet.creatorId === userObj.uid}/>
                     )
                 })}
             </div>
-        </>
+        </div>
     )
 }
 

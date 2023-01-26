@@ -1,15 +1,17 @@
 import React, {useState} from "react";
 import {dbService, storageService} from "fBase";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faTrash, faPencilAlt} from "@fortawesome/free-solid-svg-icons";
 
-function WTweet({wtweetObj, isOwner}) {
+function WTweet({wTweetObj, isOwner}) {
     const [editing, setEditing] = useState(false);
-    const [newWTweet, setNewWTweet] = useState(wtweetObj.text);
+    const [newWTweet, setNewWTweet] = useState(wTweetObj.text);
 
     async function onDeleteClick() {
         const ok = window.confirm("정말 지울꺼에요?")
         if (ok) {
-            await dbService.doc(`wtweets/${wtweetObj.id}`).delete()
-            await storageService.refFromURL(wtweetObj.attachmentUrl).delete()
+            await dbService.doc(`wTweets/${wTweetObj.id}`).delete()
+            await storageService.refFromURL(wTweetObj.attachmentUrl).delete()
         }
     }
 
@@ -21,7 +23,7 @@ function WTweet({wtweetObj, isOwner}) {
 
     async function onSubmit(event) {
         event.preventDefault()
-        await dbService.doc(`wtweets/${wtweetObj.id}`).update({text: newWTweet})
+        await dbService.doc(`wTweets/${wTweetObj.id}`).update({text: newWTweet})
         setEditing(false);
     }
 
@@ -31,27 +33,28 @@ function WTweet({wtweetObj, isOwner}) {
     }
 
     return (
-        <div>
+        <div className="wTweet">
             {editing ? (
                 <>
-                    <form onSubmit={onSubmit}>
+                    <form onSubmit={onSubmit} className="container wTweetEdit">
                         <input type='text' placeholder='너의 바뀐 기분을 속삭여줄래' value={newWTweet} required
-                               onChange={onChange}/>
-                        <input type='submit' value='수정완료'/>
+                               onChange={onChange} className="formBtn"/>
+                        <input type='submit' value='수정완료' className="formBtn"/>
                     </form>
-                    <button onClick={toggleEditing}>취소</button>
+                    <button onClick={toggleEditing} className="formBtn cancelBtn">취소</button>
                 </>
             ) : (
                 <>
-                    <h4>{wtweetObj.text}</h4>
-                    {wtweetObj.attachmentUrl && (
-                        <img src={wtweetObj.attachmentUrl} width="50px" alt=""/>
+                    <h4>{wTweetObj.text}</h4>
+                    {wTweetObj.attachmentUrl && (
+                        <img src={wTweetObj.attachmentUrl} alt=""/>
                     )}
                     {isOwner && (
-                        <>
-                            <button onClick={onDeleteClick}>삭제</button>
-                            <button onClick={toggleEditing}>수정</button>
-                        </>
+                        <div>
+                            <div className="wTweet__actions"/>
+                            <span onClick={onDeleteClick}><FontAwesomeIcon icon={faTrash}/></span>
+                            <span onClick={toggleEditing}><FontAwesomeIcon icon={faPencilAlt}/></span>
+                        </div>
                     )}
                 </>
             )}

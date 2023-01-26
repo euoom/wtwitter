@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {authService} from "fBase";
-import {GithubAuthProvider, GoogleAuthProvider} from "@firebase/auth";
+import "./AuthForm.css"
 
 function AuthForm() {
     const [email, setEmail] = useState('');
@@ -40,14 +40,14 @@ function AuthForm() {
 
     return (
         <div>
-            <form onSubmit={onSubmit}>
-                <input name="email" type="email" placeholder="Email" required value={email} onChange={onChange}/>
-                <input name="password" type="password" placeholder="Password" required value={password}
+            <form className="container" onSubmit={onSubmit}>
+                <input className="authInput" name="email" type="email" placeholder="이메일주소" required value={email} onChange={onChange}/>
+                <input className="authInput" name="password" type="password" placeholder="비밀번호" required value={password}
                        onChange={onChange}/>
-                <input type="submit" value={newAccount ? "Create Account" : "Log in"}/>
-                {error}
+                <input className="authInput authSubmit" type="submit" value={newAccount ? "회원가입!" : "로그인!"}/>
+                {error && <span className="authError">{error}</span> }
             </form>
-            <span onClick={toggleAccount}>{newAccount ? "Sign In" : "Create Account"}</span>
+            <span className="authSwitch" onClick={toggleAccount}>{newAccount ? "로그인으로 바꾸기" : "회원가입하러 가기"}</span>
         </div>
     )
 }

@@ -1,6 +1,7 @@
-import React, {useEffect, useState} from "react";
-import {authService, dbService} from "fBase";
+import React, {useState} from "react";
+import {authService} from "fBase";
 import {useNavigate} from "react-router-dom";
+import "./Profile.css"
 
 function Profile({refreshUser, userObj}) {
     const navigate = useNavigate()
@@ -10,13 +11,6 @@ function Profile({refreshUser, userObj}) {
         authService.signOut()
         navigate('/')
     }
-
-    // async function getMyWTweets() {
-    //     const wtweets = await dbService.collection('wtweets').where('creatorid', '==', userObj.uid).orderBy('createAt').get()
-    //     console.log(wtweets.docs.map(function (doc) {
-    //         return doc.data()
-    //     }))
-    // }
 
     function onChange(event) {
         const {target: {value}} = event
@@ -30,19 +24,27 @@ function Profile({refreshUser, userObj}) {
             refreshUser();
         }
     }
-
-    // useEffect(function () {
-    //     getMyWTweets()
-    // }, [])
-
+    
     return (
-        <>
-            <form onSubmit={onSubmit}>
-                <input onChange={onChange} type={"text"} placeholder={"보여주고싶은 닉네임"} value={newDisplayName}/>
-                <input type={"submit"} value={"수정완료"}/>
+        <div className="container">
+            <form onSubmit={onSubmit} className="profileForm">
+                <input 
+                    onChange={onChange} 
+                    type="text"
+                    autoFocus
+                    placeholder="보여주고싶은 닉네임"
+                    value={newDisplayName} 
+                    className="formInput"
+                />
+                <input 
+                    type="submit" 
+                    value="수정완료" 
+                    className="formBtn" 
+                    style={{marginTop: 10}}
+                />
             </form>
-            <button onClick={onLogOutClick}>Log Out</button>
-        </>
+            <span className="formBtn cancelBtn logOut" onClick={onLogOutClick}>로그아웃</span>
+        </div>
     )
 }
 

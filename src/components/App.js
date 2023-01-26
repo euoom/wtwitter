@@ -42,7 +42,7 @@ function App() {
                     "Initialization..."
                 )
             }
-            <footer>&copy; {new Date().getFullYear()} WTwitter</footer>
+            {/*<footer>&copy; {new Date().getFullYear()} WTwitter</footer>*/}
         </>
     )
 }

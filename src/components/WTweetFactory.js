@@ -1,6 +1,9 @@
 import React, {useState} from "react";
 import {v4 as uuidv4} from "uuid";
 import {storageService, dbService} from "fBase";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faPlus, faTimes} from "@fortawesome/free-solid-svg-icons";
+import "./WTweetFactory.css"
 
 function WTweetFactory({userObj}) {
     const [wTweet, setWTweet] = useState("")
@@ -8,6 +11,10 @@ function WTweetFactory({userObj}) {
 
     async function onSubmit(event) {
         event.preventDefault()
+        if (wTweet === "") {
+            return
+        }
+
         let attachmentUrl = ""
 
         if (attachment !== "") {
@@ -21,7 +28,7 @@ function WTweetFactory({userObj}) {
             creatorId: userObj.uid,
             attachmentUrl,
         }
-        await dbService.collection('wtweets').add(wTweetObj)
+        await dbService.collection('wTweets').add(wTweetObj)
         setWTweet("");
         setAttachment("");
     }
@@ -48,16 +55,42 @@ function WTweetFactory({userObj}) {
     }
 
     return (
-        <form onSubmit={onSubmit}>
-            <input type="text" placeholder="설명 텍스트" maxLength={120} value={wTweet} onChange={onChange}/>
-            <input type="file" accept="images/*" onChange={onFileChange}/>
-            <input type="submit" value="등록"/>
-            {attachment && (
-                <div>
-                    <img src={attachment} alt='' width='50px' height='50px'/>
-                    <button onClick={onClearAttachment}>이미지 비우기</button>
+        <form onSubmit={onSubmit} className="factoryForm">
+            <div className="factoryInput__container">
+                <input
+                    className="factoryInput__input"
+                    value={wTweet}
+                    onChange={onChange}
+                    type="text"
+                    placeholder="너의 기분을 알고싶어"
+                    maxLength={120}
+                />
+                <input type="submit" value="&rarr;" className="factoryInput__arrow"/>
+            </div>
+            <label htmlFor="attach-file" className="factoryInput__label">
+                <span>사진 올리기</span>
+                <FontAwesomeIcon icon={faPlus}/>
+            </label>
+            <input
+                id="attach-file"
+                type="file"
+                accept="images/*"
+                onChange={onFileChange}
+                style={{
+                    opacity: 0,
+                }}
+            />
+            <div className="factoryForm__attachment">
+                <img
+                    src={attachment}
+                    alt=''
+                    style={{backgroundImage: attachment,}}
+                />
+                <div className="factoryForm__clear" onClick={onClearAttachment}>
+                    <span>Remove</span>
+                    <FontAwesomeIcon icon={faTimes}/>
                 </div>
-            )}
+            </div>
         </form>
     )
 }
