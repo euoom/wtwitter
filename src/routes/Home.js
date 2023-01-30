@@ -1,31 +1,31 @@
 import React, {useEffect, useState} from "react"
 import {collection, dbService, onSnapshot, orderBy, query} from "fBase";
-import WTweet from "components/WTweet";
-import WTweetFactory from "components/WTweetFactory";
+import WTwitte from "components/WTwitte";
+import WTwitteFactory from "components/WTwitteFactory";
 
 function Home({userObj}) {
-    const [wTweets, setWTweets] = useState([])
+    const [wTwittes, setWTwitte] = useState([])
 
     useEffect(function () {
-        const q = query(collection(dbService, 'wTweets'), orderBy('createdAt', 'desc'))
+        const q = query(collection(dbService, 'wTwittes'), orderBy('createdAt', 'desc'))
         onSnapshot(q, function (snapshot) {
-            const wTweetArray = snapshot.docs.map(function (doc) {
+            const wTwitteArray = snapshot.docs.map(function (doc) {
                 return ({
                     id: doc.id,
                     ...doc.data()
                 })
             })
-            setWTweets(wTweetArray)
+            setWTwitte(wTwitteArray)
         })
     }, [])
 
     return (
         <div className="container">
-            <WTweetFactory userObj={userObj}/>
+            <WTwitteFactory userObj={userObj}/>
             <div style={{marginTop: 30}}>
-                {wTweets.map(function (wTweet) {
+                {wTwittes.map(function (wTwitte) {
                     return (
-                        <WTweet key={wTweet.id} wTweetObj={wTweet} isOwner={wTweet.creatorId === userObj.uid}/>
+                        <WTwitte key={wTwitte.id} wTwitteObj={wTwitte} isOwner={wTwitte.creatorId === userObj.uid}/>
                     )
                 })}
             </div>

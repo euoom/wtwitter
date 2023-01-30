@@ -1,12 +1,12 @@
 /* Nweet */
 
-.wtweetEdit .formBtn {
+.wTwitteEdit .formBtn {
     cursor: pointer;
     margin-top: 15px;
     margin-bottom: 5px;
 }
 
-.wtweet {
+.wTwitte {
     margin-bottom: 20px;
     background-color: white;
     width: 100%;
@@ -19,11 +19,11 @@
     color: rgba(0, 0, 0, 0.8);
 }
 
-.wtweet h4 {
+.wTwitte h4 {
     font-size: 14px;
 }
 
-.wtweet img {
+.wTwitte img {
     right: -10px;
     top: 20px;
     position: absolute;
@@ -33,17 +33,17 @@
     margin-top: 10px;
 }
 
-.wtweet__actions {
+.wTwitte__actions {
     position: absolute;
     right: 10px;
     top: 10px;
 }
 
-.wtweet__actions span {
+.wTwitte__actions span {
     cursor: pointer;
 }
 
-.wtweet__actions span:first-child {
+.wTwitte__actions span:first-child {
     margin-right: 10px;
 }
 

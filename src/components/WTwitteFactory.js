@@ -3,15 +3,15 @@ import {v4 as uuidv4} from "uuid";
 import {storageService, dbService} from "fBase";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlus, faTimes} from "@fortawesome/free-solid-svg-icons";
-import "./WTweetFactory.css"
+import "./WTwitteFactory.css"
 
-function WTweetFactory({userObj}) {
-    const [wTweet, setWTweet] = useState("")
+function WTwitteFactory({userObj}) {
+    const [wTwitte, setWTwitte] = useState("")
     const [attachment, setAttachment] = useState("")
 
     async function onSubmit(event) {
         event.preventDefault()
-        if (wTweet === "") {
+        if (wTwitte === "") {
             return
         }
 
@@ -22,20 +22,20 @@ function WTweetFactory({userObj}) {
             const response = await attachmentRef.putString(attachment, 'data_url')
             attachmentUrl = await response.ref.getDownloadURL()
         }
-        const wTweetObj = {
-            text: wTweet,
+        const wTwitteObj = {
+            text: wTwitte,
             createdAt: Date.now(),
             creatorId: userObj.uid,
             attachmentUrl,
         }
-        await dbService.collection('wTweets').add(wTweetObj)
-        setWTweet("");
+        await dbService.collection('wTwittes').add(wTwitteObj)
+        setWTwitte("");
         setAttachment("");
     }
 
     function onChange(event) {
         const {target: {value}} = event
-        setWTweet(value)
+        setWTwitte(value)
     }
 
     function onFileChange(event) {
@@ -59,7 +59,7 @@ function WTweetFactory({userObj}) {
             <div className="factoryInput__container">
                 <input
                     className="factoryInput__input"
-                    value={wTweet}
+                    value={wTwitte}
                     onChange={onChange}
                     type="text"
                     placeholder="너의 기분을 알고싶어"
@@ -95,4 +95,4 @@ function WTweetFactory({userObj}) {
     )
 }
 
-export default WTweetFactory
+export default WTwitteFactory

@@ -3,15 +3,15 @@ import {dbService, storageService} from "fBase";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrash, faPencilAlt} from "@fortawesome/free-solid-svg-icons";
 
-function WTweet({wTweetObj, isOwner}) {
+function WTwitte({wTwitteObj, isOwner}) {
     const [editing, setEditing] = useState(false);
-    const [newWTweet, setNewWTweet] = useState(wTweetObj.text);
+    const [newWTwitte, setNewWTwitte] = useState(wTwitteObj.text);
 
     async function onDeleteClick() {
         const ok = window.confirm("정말 지울꺼에요?")
         if (ok) {
-            await dbService.doc(`wTweets/${wTweetObj.id}`).delete()
-            await storageService.refFromURL(wTweetObj.attachmentUrl).delete()
+            await dbService.doc(`wTwittes/${wTwitteObj.id}`).delete()
+            await storageService.refFromURL(wTwitteObj.attachmentUrl).delete()
         }
     }
 
@@ -23,21 +23,21 @@ function WTweet({wTweetObj, isOwner}) {
 
     async function onSubmit(event) {
         event.preventDefault()
-        await dbService.doc(`wTweets/${wTweetObj.id}`).update({text: newWTweet})
+        await dbService.doc(`wTwittes/${wTwitteObj.id}`).update({text: newWTwitte})
         setEditing(false);
     }
 
     function onChange(event) {
         const {target: {value}} = event
-        setNewWTweet(value)
+        setNewWTwitte(value)
     }
 
     return (
-        <div className="wTweet">
+        <div className="wTwitte">
             {editing ? (
                 <>
-                    <form onSubmit={onSubmit} className="container wTweetEdit">
-                        <input type='text' placeholder='너의 바뀐 기분을 속삭여줄래' value={newWTweet} required
+                    <form onSubmit={onSubmit} className="container wTwitteEdit">
+                        <input type='text' placeholder='너의 바뀐 기분을 속삭여줄래' value={newWTwitte} required
                                onChange={onChange} className="formBtn"/>
                         <input type='submit' value='수정완료' className="formBtn"/>
                     </form>
@@ -45,13 +45,13 @@ function WTweet({wTweetObj, isOwner}) {
                 </>
             ) : (
                 <>
-                    <h4>{wTweetObj.text}</h4>
-                    {wTweetObj.attachmentUrl && (
-                        <img src={wTweetObj.attachmentUrl} alt=""/>
+                    <h4>{wTwitteObj.text}</h4>
+                    {wTwitteObj.attachmentUrl && (
+                        <img src={wTwitteObj.attachmentUrl} alt=""/>
                     )}
                     {isOwner && (
                         <div>
-                            <div className="wTweet__actions"/>
+                            <div className="wTwitte__actions"/>
                             <span onClick={onDeleteClick}><FontAwesomeIcon icon={faTrash}/></span>
                             <span onClick={toggleEditing}><FontAwesomeIcon icon={faPencilAlt}/></span>
                         </div>
@@ -62,4 +62,4 @@ function WTweet({wTweetObj, isOwner}) {
     )
 }
 
-export default WTweet
+export default WTwitte
