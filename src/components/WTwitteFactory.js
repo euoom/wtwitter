@@ -22,12 +22,14 @@ function WTwitteFactory({userObj}) {
             const response = await attachmentRef.putString(attachment, 'data_url')
             attachmentUrl = await response.ref.getDownloadURL()
         }
+
         const wTwitteObj = {
             text: wTwitte,
             createdAt: Date.now(),
             creatorId: userObj.uid,
             attachmentUrl,
         }
+
         await dbService.collection('wTwittes').add(wTwitteObj)
         setWTwitte("");
         setAttachment("");
